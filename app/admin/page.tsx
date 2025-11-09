@@ -2,9 +2,10 @@ import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
 import { toast } from "sonner";
 import { z } from "zod";
+import { loginAdmin } from "./actions";
 
 export default function AdminPage() {
-  const loginAdmin = async (formData: FormData) => {
+  const login = async (formData: FormData) => {
     "use server";
     const usuario = formData.get("usuario");
     const password = formData.get("password");
@@ -12,6 +13,7 @@ export default function AdminPage() {
       usuario: z.string().min(3, "Usuário inválido"),
       password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
     });
+    loginAdmin(formData);
 
     redirect("/admin/private");
   };
