@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Application {
+  id        Int      @id @default(autoincrement())
+  nome      String 
+  empresa   String?
+  email     String @unique
+  motivo_participacao String
+  aprovado Boolean @default(false)
+  recusado Boolean @default(false)
+  codigo_convite String? @unique
+  registro_finalizado Boolean @default(false)
+  createdAt DateTime @default(now())
+  participant Participant?
+
+  @@map("applications")
+}
+
+model Participant {
+  id        Int      @id @default(autoincrement())
+  application Application @relation(fields: [id_intencao], references: [id])
+  id_intencao Int @unique
+  nome      String 
+  empresa   String?
+  email     String @unique
+  telefone  String?
+  rede_social String?
+  cpf_cnpj String?
+  descricao_habilidades String?
+  createdAt DateTime @default(now())
+
+  @@map("participants")
+}
