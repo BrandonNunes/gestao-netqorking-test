@@ -1,7 +1,6 @@
-import { PrismaClient } from "@/lib/generated/prisma/client";
 import { NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
+import ApplicationsRepository from "../../_repositorys/applications.repository";
+const applicationsRepository = new ApplicationsRepository();
 
 export async function GET(
   request: Request,
@@ -9,9 +8,9 @@ export async function GET(
 ) {
   const { invite_code } = await context.params;
   console.log("invite_code", invite_code);
-  const application = await prisma.application.findFirst({
-    where: { codigo_convite: invite_code },
-  });
+  const application = await applicationsRepository.getApplicationByCode(
+    invite_code
+  );
 
   if (!application) {
     return NextResponse.json(

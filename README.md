@@ -1,36 +1,127 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gestão de Networking
 
-## Getting Started
+Sistema de gestão para gerenciamento de participantes e aplicações em eventos de networking.
 
-First, run the development server:
+## 📋 Pré-requisitos
+
+- Node.js 18+
+- PostgreSQL
+- npm ou yarn
+
+## 🚀 Instalação
+
+1. Clone o repositório:
+
+```bash
+git clone <url-do-repositorio>
+cd gestao-networking
+```
+
+2. Instale as dependências:
+
+```bash
+npm install
+```
+
+3. Configure as variáveis de ambiente:
+   Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+
+```env
+DATABASE_URL="postgresql://usuario:senha@localhost:5432/gestao_networking"
+```
+
+4. Configure o banco de dados com Prisma:
+
+```bash
+npx prisma generate
+npx prisma migrate dev
+```
+
+## 🏃‍♂️ Execução do Projeto
+
+### Desenvolvimento
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+O servidor será iniciado em `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build de Produção
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## 🔧 Comandos Úteis do Prisma
 
-To learn more about Next.js, take a look at the following resources:
+### Gerar o cliente Prisma
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npx prisma generate
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Criar e aplicar migrações
 
-## Deploy on Vercel
+```bash
+npx prisma migrate dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Criar uma nova migração com nome personalizado
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npx prisma migrate dev --name nome_da_migracao
+```
+
+### Resetar o banco de dados
+
+```bash
+npx prisma migrate reset
+```
+
+### Visualizar o banco de dados (Prisma Studio)
+
+```bash
+npx prisma studio
+```
+
+### Sincronizar schema com banco existente
+
+```bash
+npx prisma db push
+```
+
+### Aplicar migrações em produção
+
+```bash
+npx prisma migrate deploy
+```
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Framework**: Next.js 16+ com App Router
+- **Banco de Dados**: PostgreSQL
+- **ORM**: Prisma
+- **Estilização**: Tailwind CSS
+- **Validação**: Zod
+- **Formulários**: React Hook Form
+- **Notificações**: Sonner
+
+## 🚨 Tratamento de Erros Comuns
+
+### Erro: "Prisma Client not found"
+
+```bash
+npx prisma generate
+```
+
+### Erro: "Database does not exist"
+
+Certifique-se de criar o banco de dados PostgreSQL antes de rodar as migrações.
+
+### Erro: "Migration failed"
+
+```bash
+npx prisma migrate reset
+```

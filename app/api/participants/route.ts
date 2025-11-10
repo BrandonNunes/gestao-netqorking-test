@@ -1,17 +1,17 @@
-import { PrismaClient } from "@/lib/generated/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import ParticipantsRepository from "../_repositorys/participants.repository";
+import ApplicationsRepository from "../_repositorys/applications.repository";
 
-const prisma = new PrismaClient();
+const participantsRepository = new ParticipantsRepository();
+const applicationsRepository = new ApplicationsRepository();
 
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
     console.log("Dados recebidos da aplicação:", data);
-    const existEmail = await prisma.participant.findFirst({
-      where: {
-        email: data.email,
-      },
-    });
+    const existEmail = await participantsRepository.getParticipantByEmail(
+      data.email
+    );
 
     if (existEmail) {
       return NextResponse.json(
@@ -22,19 +22,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const participant = await prisma.participant.create({
-      data: {
-        ...data,
-      },
+    const participant = await participantsRepository.createParticipant({
+      ...data,
     });
 
-    await prisma.application.update({
-      where: {
-        id: data.id_intencao,
-      },
-      data: {
-        registro_finalizado: true,
-      },
+    await applicationsRepository.updateApplication(data.id_intencao, {
+      registro_finalizado: true,
     });
 
     return NextResponse.json(

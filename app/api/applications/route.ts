@@ -1,10 +1,10 @@
-import { PrismaClient } from "@/lib/generated/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import ApplicationsRepository from "@/app/api/_repositorys/applications.repository";
 
-const prisma = new PrismaClient();
+const applicationsRepository = new ApplicationsRepository();
 
 export async function GET() {
-  const applications = await prisma.application.findMany();
+  const applications = await applicationsRepository.getApplications();
   return NextResponse.json(applications);
 }
 
@@ -12,11 +12,9 @@ export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
     console.log("Dados recebidos da aplicação:", data);
-    const existEmail = await prisma.application.findFirst({
-      where: {
-        email: data.email,
-      },
-    });
+    const existEmail = await applicationsRepository.getApplicationByEmail(
+      data.email
+    );
 
     if (existEmail) {
       return NextResponse.json(
@@ -27,13 +25,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const application = await prisma.application.create({
-      data: {
-        nome: data.nome,
-        email: data.email,
-        motivo_participacao: data.motivo_participacao,
-      },
-    });
+    const application = await applicationsRepository.createApplication(data);
 
     return NextResponse.json(
       {
@@ -59,14 +51,10 @@ export async function PATCH(req: NextRequest) {
   try {
     const data = await req.json();
     console.log("Dados recebidos da aplicação:", data);
-    const application = await prisma.application.update({
-      where: {
-        id: data.id,
-      },
-      data: {
-        ...data,
-      },
-    });
+    const application = await applicationsRepository.updateApplication(
+      data.id,
+      data
+    );
     if (data.codigo_convite) {
       // SIMULA ENVIO DE EMAIL PARA O USUARIO
       console.log("Enviando email para:", application.email);
