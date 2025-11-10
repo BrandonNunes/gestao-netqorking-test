@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 export const TOKEN_NAME = "auth_token";
 // Executa antes de qualquer request
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   console.log("🧭 Middleware interceptou:", pathname);

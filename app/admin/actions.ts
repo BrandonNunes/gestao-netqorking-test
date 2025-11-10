@@ -1,6 +1,6 @@
 "use server";
 import { cookies } from "next/headers";
-import { TOKEN_NAME } from "@/middleware";
+import { TOKEN_NAME } from "@/proxy";
 import { redirect } from "next/navigation";
 
 export async function loginAdmin(data: unknown) {

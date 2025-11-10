@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { TOKEN_NAME } from "@/middleware";
+import { TOKEN_NAME } from "@/proxy";
 import { User, LogOut } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -21,7 +21,7 @@ export default async function AdminLayout({
         <div className="flex items-center justify-center gap-2">
           <Link
             className="text-white text-md border-b-2 border-white hover:border-b-4"
-            href="/admin/dashboard"
+            href="/admin/private/dashboard"
           >
             Dashboard
           </Link>

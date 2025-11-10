@@ -67,6 +67,11 @@ export async function PATCH(req: NextRequest) {
         ...data,
       },
     });
+    if (data.codigo_convite) {
+      // SIMULA ENVIO DE EMAIL PARA O USUARIO
+      console.log("Enviando email para:", application.email);
+      console.log("Código de convite:", data.codigo_convite);
+    }
     return NextResponse.json(
       {
         message: "Solicitação atualizada com sucesso!",
